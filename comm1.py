@@ -18,3 +18,4 @@ while 1:
     ser.write("Write counter: %d \n"%(counter))
     time.sleep(1)
     counter += 1
+
