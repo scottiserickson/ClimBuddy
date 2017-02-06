@@ -75,5 +75,3 @@ gpio_setup(b4_i, b4_o, b4_callback)
 gpio_setup(b5_i, b5_o, b5_callback)
 gpio_setup(b6_i, b6_o, b6_callback)
 
-
-
