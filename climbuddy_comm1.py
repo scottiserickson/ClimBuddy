@@ -64,27 +64,27 @@ def gpio_button_setup(gpio_input, gpio_output, button_callback):
 
 def b1_callback(self):
     green_led_change(green_led_1)
-    send_serial_message('1')
+    send_serial_message(rx_button_1)
 
 def b2_callback(self):
     green_led_change(green_led_2)
-    send_serial_message('2')
+    send_serial_message(rx_button_2)
 
 def b3_callback(self):
     green_led_change(green_led_3)
-    send_serial_message('3')
+    send_serial_message(rx_button_3)
 
 def b4_callback(self):
     green_led_change(green_led_4)
-    send_serial_message('4')
+    send_serial_message(rx_button_4)
 
 def b5_callback(self):
     green_led_change(green_led_5)
-    send_serial_message('5')
+    send_serial_message(rx_button_5)
 
 def b6_callback(self):
     green_led_change(green_led_6)
-    send_serial_message('6')
+    send_serial_message(rx_button_6)
     
 def send_serial_message(message):
     ser.write(message)
