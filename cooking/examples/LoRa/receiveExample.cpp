@@ -24,6 +24,7 @@
  
 // Include the SX1272 and SPI library: 
 #include "arduPiLoRa.h"
+#include <iostream>
 
 int e;
 char my_packet[100];
@@ -79,6 +80,7 @@ void loop(void)
       my_packet[i] = (char)sx1272.packet_received.data[i];
     }
     printf("Message: %s\n", my_packet);
+    std::cout << my_packet << std::endl;
   }
   else {
     printf("Fail: Receive packet, state %d\n",e);
@@ -88,8 +90,17 @@ void loop(void)
 int main (){
 	setup();
 	while(1){
-		loop();
+		//loop();
+		e = sx1272.receivePacketTimeout(10000);
+		if ( e == 0 )
+  		{
+			for (unsigned int i = 0; i < sx1272.packet_received.length; i++)
+    			{
+      				my_packet[i] = (char)sx1272.packet_received.data[i];
+    			}
+			std::cout << my_packet << std::endl;
+			return (0);
+		}
 	}
-	return (0);
 }
 
