@@ -22,7 +22,7 @@
  *  Implementation:    Covadonga Albiñana, Victor Boria, Ruben Martin
  */
  
-// Include the SX1272 and SPI library: 
+// Include the SX1272 and SPI library:
 #include "arduPiLoRa.h"
 
 int e;
@@ -75,21 +75,21 @@ void setup()
 void loop(void)
 {
 	// Send message1 and print the result
-    e = sx1272.sendPacketTimeout(8, message1);
-    printf("Packet sent, state %d\n",e);
+  	e = sx1272.sendPacketTimeout(8, message1);
+	printf("Packet sent, state %d\n",e);
     
-    delay(4000);
+  	delay(4000);
  
  	// Send message2 broadcast and print the result
-    e = sx1272.sendPacketTimeout(0, message2);
-    printf("Packet sent, state %d\n",e);
+ 	e = sx1272.sendPacketTimeout(0, message2);
+ 	printf("Packet sent, state %d\n",e);
     
-    delay(4000);
+  	delay(4000);
 }
 
-int main (){
+int main () {
 	setup();
-	while(1){
+	while(1) {
 		loop();
 	}
 	return (0);

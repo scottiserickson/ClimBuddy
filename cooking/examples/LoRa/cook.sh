@@ -73,23 +73,6 @@ else
   fi
 fi 
 
-#compile ClimBuddyWiring
-cd "$EXAMPLES_DIR"
-file="./ClimBuddyWiring.o"
-if [ -e $file ]; then
-  if [ "$1" == "-clean" ]; then
-    echo "ClimBuddyWiring.o -> purged"
-    rm ./ClimBuddyWiring.o
-  else
-	echo "ClimBuddyWiring already compiled"
-  fi
-else
-  if [ "$1" != "-clean" ]; then
-	echo "Compiling ClimBuddyWiring..."
-    g++ -c ClimBuddyWiring.cpp -o ClimBuddyWiring.o
-  fi
-fi
-
 #compile library
 cd "$LIBRARY_DIR"
 file="./arduPiLoRa.o"
@@ -122,12 +105,11 @@ if [ "$1" != "-clean" ]; then
     if [ "$1" != "" ]; then
     echo "Compiling Example..."
        
-    g++ -lwiringPi -lrt -lpthread -lstdc++ "$1" \
+    g++ -lrt -lpthread -lstdc++ "$1" \
       "$LIBRARY_DIR/arduPiLoRa.o" \
       "$ARDUPIAPI_DIR/arduPiUART.o" \
       "$ARDUPIAPI_DIR/arduPiUtils.o" \
       "$ARDUPIAPI_DIR/arduPiMultiprotocol.o" \
-      "$EXAMPLES_DIR/ClimBuddyWiring.o" \
       "$ARDUPI_DIR/arduPi.o" \
       -I"$ARDUPI_DIR" \
       -I"$ARDUPIAPI_DIR" \
