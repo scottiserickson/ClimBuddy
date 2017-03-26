@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <sys/time.h>
+//#include <stdio.h>
+//#include <sys/time.h>
 #include <wiringPi.h>
-// Include the SX1272 and SPI library: 
 #include "arduPiLoRa.h"
 
 // Which GPIO pin we're using

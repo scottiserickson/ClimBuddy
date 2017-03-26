@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <sys/time.h>
-#include <wiringPi.h>
-// Include the SX1272 and SPI library: 
 #include "arduPiLoRa.h"
+#include "ClimBuddyWiring.h"
+#include <unistd.h>
 
 // Which GPIO pin we're using
 #define PIN 25
@@ -12,8 +12,10 @@
 // How much time a change must be since the last in order to count as a change
 #define IGNORE_CHANGE_BELOW_USEC 10000
 
+ClimbFuncs::ClimBuddyWiring climBuddy;
+
 // Current state of the pin
-static volatile int state;
+//static volatile int state;
 // Time of last change
 struct timeval last_change;
 
@@ -51,10 +53,11 @@ void button_one(void) {
 
 	// Filter jitter
 	if (diff > IGNORE_CHANGE_BELOW_USEC) {
-		digitalWrite(LEDG, !state);
-		state = !state; 
+		climBuddy.wiringWrite(LEDG, 1);
+		//state = !state; 
 		transmitMessage();
 	}
+	exit(1);
 
 	last_change = now;
 }
@@ -98,8 +101,8 @@ void loraSetup(void)
 }
 
 int main(void) {
-	// Init GPIO and LoRa module
-	wiringPiSetup();
+	// Init GPIO and LoRa module	
+	climBuddy.wiringSetup();
 	loraSetup();
 
 	// Set pin to output in case it's not
@@ -110,20 +113,20 @@ int main(void) {
 	gettimeofday(&last_change, NULL);
 
 	// Bind to interrupt
-	wiringPiISR(PIN, INT_EDGE_FALLING, &button_one);
+	climBuddy.wiringISR(PIN, 1, &button_one);
 
 	// Get initial state of pin
-	state = digitalRead(PIN);
+	//state = digitalRead(PIN);
 
-	if (state) {
-		printf("Started! Initial state is on\n");
-	}
-	else {
-		printf("Started! Initial state is off\n");
-	}
+	//if (state) {
+	//	printf("Started! Initial state is on\n");
+	//}
+	//else {
+	//	printf("Started! Initial state is off\n");
+	//}
 
 	// Waste time but not CPU
 	for (;;) {
-		sleep(1);
+		unistd::sleep(1);
 	}
 }
