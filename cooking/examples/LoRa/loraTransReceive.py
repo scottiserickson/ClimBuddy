@@ -196,9 +196,22 @@ runReceiveCode()
 
 while True:
     out, err = rx_proc.communicate()    
+    outStr = out.decode("utf-8")
     
-    #if "1" in out:
-    #    print "1!"
+    if "1" in outStr:
+        print ("1!")
+    elif "2" in outStr:
+        print ("2!")
+    elif "3" in outStr:
+        print ("3!")
+    elif "4" in outStr:
+        print ("4!")
+    elif "5" in outStr:
+        print ("5!")
+    elif "6" in outStr:
+        print ("6!")
+    else:
+        print("nah")
         
     runReceiveCode()
 
