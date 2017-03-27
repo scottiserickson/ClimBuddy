@@ -85,5 +85,9 @@ int main (){
     			std::cout << my_packet << std::endl;
     			return(0);
   		}
+		else{
+			std::cout << "0" << std::endl;
+			return(0);
+		}
 	}
 }
