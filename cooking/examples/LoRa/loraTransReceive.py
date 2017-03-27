@@ -16,20 +16,20 @@ isRunningTransmit = False
 # CONSTANTS ------------------------------------------------------
 
 # GPIO button input pins (connected to ArduPi sheild).
-b1_i = 22 
-b2_i = 27 
-b3_i = 18
-b4_i = 4
-b5_i = 25
-b6_i = 24
+b1_i = 18           # Set properly
+b2_i = 24           # Set properly
+b3_i = 25           # Set properly
+b4_i = 4            # Set properly
+b5_i = 27           # Set properly
+b6_i = 22           # Set properly
 
 # initializes green LED constant values
-green_led_1 = 0 
-green_led_2 = 0
-green_led_3 = 0
-green_led_4 = 0
-green_led_5 = 0
-green_led_6 = 0
+green_led_1 = 14    # Set properly (LED is fucked).
+green_led_2 = 17    # Set properly
+green_led_3 = 15    # Set properly
+green_led_4 = 5     # Set properly
+green_led_5 = 6     # Set properly
+green_led_6 = 12    # Set properly
 
 # initializes red LED constant values
 red_led_1 = 13
@@ -54,7 +54,7 @@ def gpio_general_setup():
 def gpio_button_setup(gpio_input, gpio_output, button_callback):
     GPIO.setup(gpio_input, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(gpio_output, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.add_event_detect(gpio_input, GPIO.RISING, callback=button_callback, bouncetime=1000)
+    GPIO.add_event_detect(gpio_input, GPIO.RISING, callback=button_callback, bouncetime=400)
 
 def red_led_setup():
     GPIO.setup(red_led_1, GPIO.OUT, initial=GPIO.LOW)
@@ -73,20 +73,18 @@ def gpio_output_low(port_num):
     GPIO.output(port_num, GPIO.LOW)
 
 # changes lit green LED to led_num 
-def green_led_change(led_num):
-    time.sleep(0.001)
-    #global green_led_lit
-    #if green_led_lit == led_num:
-    #    print 'led lit same\n'
-    #else:
-    #    gpio_output_low(green_led_lit)
-    #    gpio_output_high(led_num)
-    #    green_led_lit = led_num
+def turn_on_green_led(green_led):
+    global green_led_lit
+    if green_led_lit == green_led:  
+        print('led lit same\n')
+    else:
+        gpio_output_low(green_led_lit)
+        gpio_output_high(green_led)
+        green_led_lit = green_led
 
 def turn_on_red_led(red_led):
     global red_led_lit
     if red_led_lit == red_led:
-        time.sleep(0.4)
         print('led lit same\n')
     else:
         gpio_output_low(red_led_lit)
@@ -101,11 +99,11 @@ def pauseReceiveTransmitMessageAndContinueReceive(message):
         
 # button 1 pressed
 def b1_callback(self):
-    print("Sent 1!")
+    print("Sent 1!") 
+    turn_on_green_led(green_led_1)
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
-        green_led_change(green_led_1)
         pauseReceiveTransmitMessageAndContinueReceive("1")
         isRunningTransmit = False
     else:
@@ -114,10 +112,10 @@ def b1_callback(self):
 # button 2 pressed
 def b2_callback(self):
     print("Sent 2!")
+    turn_on_green_led(green_led_2)
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
-        green_led_change(green_led_2)
         pauseReceiveTransmitMessageAndContinueReceive("2")
         isRunningTransmit = False
     else:
@@ -126,10 +124,10 @@ def b2_callback(self):
 # button 3 pressed
 def b3_callback(self):
     print("Sent 3!")
+    turn_on_green_led(green_led_3)
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
-        green_led_change(green_led_3)
         pauseReceiveTransmitMessageAndContinueReceive("3")
         isRunningTransmit = False
     else:
@@ -138,10 +136,10 @@ def b3_callback(self):
 # button 4 pressed
 def b4_callback(self):
     print("Sent 4!")
+    turn_on_green_led(green_led_4)
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
-        green_led_change(green_led_4)
         pauseReceiveTransmitMessageAndContinueReceive("4")
         isRunningTransmit = False
     else:
@@ -150,10 +148,10 @@ def b4_callback(self):
 # button 5 pressed
 def b5_callback(self):
     print("Sent 5!")
+    turn_on_green_led(green_led_5)
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
-        green_led_change(green_led_5)
         pauseReceiveTransmitMessageAndContinueReceive("5")
         isRunningTransmit = False
     else:
@@ -162,10 +160,10 @@ def b5_callback(self):
 # button 6 pressed
 def b6_callback(self):
     print("Sent 6!")
+    turn_on_green_led(green_led_6)
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
-        green_led_change(green_led_6)
         pauseReceiveTransmitMessageAndContinueReceive("6")
         isRunningTransmit = False
     else:

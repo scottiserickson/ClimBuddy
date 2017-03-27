@@ -85,7 +85,7 @@ void loop(void)
     printf("Message: %s\n", my_packet);
   }
   else {
-    printf("Receive packet, state %d\n",e);
+    printf("No Packet");
   }
 }
 
