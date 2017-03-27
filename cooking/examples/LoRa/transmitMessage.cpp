@@ -62,7 +62,6 @@ void setup()
   
   // Print a success message
   printf("SX1272 successfully configured\n\n");
-  delay(1000);
 }
 
 void sendMessage(char* message)

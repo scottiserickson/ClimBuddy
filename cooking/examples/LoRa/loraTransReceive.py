@@ -4,7 +4,7 @@ import os
 import time
 import signal
 import RPi.GPIO as GPIO
-from subprocess import check_output, Popen, PIPE
+from subprocess import check_output, Popen, PIPE, TimeoutExpired
 
 # GLOBALS --------------------------------------------------------
 
@@ -67,7 +67,7 @@ def gpio_output_low(port_num):
 
 # changes lit green LED to led_num 
 def green_led_change(led_num):
-    print "change green led"
+    print("change green led")
     #global green_led_lit
     #if green_led_lit == led_num:
     #    print 'led lit same\n'
@@ -78,7 +78,7 @@ def green_led_change(led_num):
         
 # button 1 pressed
 def b1_callback(self):
-    print "button 1"
+    print("button 1")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
@@ -88,11 +88,11 @@ def b1_callback(self):
         os.system("sudo kill -CONT %s" % (rx_pid))
         isRunningTransmit = False
     else:
-        print "RUNNING CODE"
+        print("RUNNING CODE")
 
 # button 2 pressed
 def b2_callback(self):
-    print "button 2"
+    print("button 2")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
@@ -102,11 +102,11 @@ def b2_callback(self):
         os.system("sudo kill -CONT %s" % (rx_pid))
         isRunningTransmit = False
     else:
-        print "RUNNING CODE"
+        print("RUNNING CODE")
 
 # button 3 pressed
 def b3_callback(self):
-    print "button 3"
+    print("button 3")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
@@ -116,11 +116,11 @@ def b3_callback(self):
         os.system("sudo kill -CONT %s" % (rx_pid))
         isRunningTransmit = False
     else:
-        print "RUNNING CODE"
+        print("RUNNING CODE")
 
 # button 4 pressed
 def b4_callback(self):
-    print "button 4"
+    print("button 4")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
@@ -130,11 +130,11 @@ def b4_callback(self):
         os.system("sudo kill -CONT %s" % (rx_pid))
         isRunningTransmit = False
     else:
-        print "RUNNING CODE"
+        print("RUNNING CODE")
 
 # button 5 pressed
 def b5_callback(self):
-    print "button 5"
+    print("button 5")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
@@ -144,11 +144,11 @@ def b5_callback(self):
         os.system("sudo kill -CONT %s" % (rx_pid))
         isRunningTransmit = False
     else:
-        print "RUNNING CODE"
+        print("RUNNING CODE")
 
 # button 6 pressed
 def b6_callback(self):
-    print "button 6"
+    print("button 6")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
@@ -158,7 +158,7 @@ def b6_callback(self):
         os.system("sudo kill -CONT %s" % (rx_pid))
         isRunningTransmit = False
     else:
-        print "RUNNING CODE"
+        print("RUNNING CODE")
 
 # runs receiver code in a subprocess
 def runReceiveCode():
@@ -170,11 +170,16 @@ def runReceiveCode():
 # run transmit code in a subprocess
 def runTransmitCode(message):
     global tx_proc
-    tx_proc = Popen(["sudo", "./transmitMessage.cpp_exe", message], stdout=PIPE)
-    global tx_pid
-    tx_pid = tx_proc.pid
-    # Wait for execution of transmit to complete.
-    tx_proc.wait()
+    try:
+        tx_proc = Popen(["sudo", "./transmitMessage.cpp_exe", message], stdout=PIPE)
+        a, b = tx_proc.communicate(timeout=8)
+        global tx_pid
+        tx_pid = tx_proc.pid
+        #Wait for execution of transmit to complete.
+        tx_proc.wait()
+    except TimeoutExpired:
+        global isRunningCode
+        isRunningCode = False
 
 # setup GPIO button type and warnings
 gpio_general_setup()
