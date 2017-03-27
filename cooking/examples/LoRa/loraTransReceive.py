@@ -8,7 +8,6 @@ from subprocess import check_output, Popen, PIPE, TimeoutExpired
 
 # GLOBALS --------------------------------------------------------
 
-global out, err
 global rx_proc, rx_pid 
 global tx_proc, tx_pid
 global isRunningTransmit
@@ -163,7 +162,7 @@ def b6_callback(self):
 # runs receiver code in a subprocess
 def runReceiveCode():
     global rx_proc
-    rx_proc = Popen(["sudo", "./receiveExample.cpp_exe"], stdout=PIPE)
+    rx_proc = Popen(["sudo", "/home/pi/ClimBuddy/cooking/examples/LoRa/receiveExample.cpp_exe"], stdout=PIPE)
     global rx_pid
     rx_pid = rx_proc.pid
 
@@ -171,7 +170,7 @@ def runReceiveCode():
 def runTransmitCode(message):
     global tx_proc
     try:
-        tx_proc = Popen(["sudo", "./transmitMessage.cpp_exe", message], stdout=PIPE)
+        tx_proc = Popen(["sudo", "/home/pi/ClimBuddy/cooking/examples/LoRa/transmitMessage.cpp_exe", message], stdout=PIPE)
         a, b = tx_proc.communicate(timeout=8)
         global tx_pid
         tx_pid = tx_proc.pid
@@ -181,23 +180,9 @@ def runTransmitCode(message):
         global isRunningCode
         isRunningCode = False
 
-# setup GPIO button type and warnings
-gpio_general_setup()
-
-# setup GPIO buttons
-gpio_button_setup(b1_i, green_led_1, b1_callback)
-gpio_button_setup(b2_i, green_led_2, b2_callback)
-gpio_button_setup(b3_i, green_led_3, b3_callback)
-gpio_button_setup(b4_i, green_led_4, b4_callback)
-gpio_button_setup(b5_i, green_led_5, b5_callback)
-gpio_button_setup(b6_i, green_led_6, b6_callback)
-
-runReceiveCode()
-
-while True:
-    out, err = rx_proc.communicate()    
-    outStr = out.decode("utf-8")
-    
+# Light up LEDs depending on message received
+def handleMessage(outStr):
+    print("outStr: ", outStr)
     if "1" in outStr:
         print ("1!")
     elif "2" in outStr:
@@ -213,39 +198,30 @@ while True:
     else:
         print("nah")
         
+# setup GPIO button type and warnings
+gpio_general_setup()
+
+# setup GPIO buttons
+gpio_button_setup(b1_i, green_led_1, b1_callback)
+gpio_button_setup(b2_i, green_led_2, b2_callback)
+gpio_button_setup(b3_i, green_led_3, b3_callback)
+gpio_button_setup(b4_i, green_led_4, b4_callback)
+gpio_button_setup(b5_i, green_led_5, b5_callback)
+gpio_button_setup(b6_i, green_led_6, b6_callback)
+
+runReceiveCode()
+
+while True:
+    out, err = rx_proc.communicate()
+    print(type(out))
+    try:
+        outStr = out.decode("utf-8")
+        print(type(outStr))
+        handleMessage(outStr)
+    except UnicodeDecodeError:    
+        print("whoops")
+    
     runReceiveCode()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -33,35 +33,24 @@ void setup()
 {
   // Power ON the module
   e = sx1272.ON();
-    printf("Setting power ON: state %d\n", e);
 
   // Set transmission mode
   e = sx1272.setMode(4);
-  printf("Setting Mode: state %d\n", e);
   
   // Set header
   e = sx1272.setHeaderON();
-  printf("Setting Header ON: state %d\n", e);
   
   // Select frequency channel
   e = sx1272.setChannel(CH_10_868);
-  printf("Setting Channel: state %d\n", e);
   
   // Set CRC
   e = sx1272.setCRC_ON();
-  printf("Setting CRC ON: state %d\n", e);
   
   // Select output power (Max, High or Low)
   e = sx1272.setPower('H');
-  printf("Setting Power: state %d\n", e);
   
   // Set the node address
   e = sx1272.setNodeAddress(8);
-  printf("Setting Node address: state %d\n", e);
-  
-  // Print a success message
-  printf("SX1272 successfully configured\n\n");
-  delay(1000);
 }
 
 void loop(void)
@@ -78,7 +67,7 @@ void loop(void)
     		exit(0);
   	}
 	else{
-	printf("nothing");
+		printf("nothing");
 	}
 }
 
