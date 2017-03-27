@@ -55,7 +55,7 @@ void setup()
 void sendMessage(char* message)
 {
 	// Send message
-	e = sx1272.sendPacketTimeout(8, message);
+	e = sx1272.sendPacketTimeoutACKRetries(8, message);
 }
 
 int main (int argc, char *argv[]){

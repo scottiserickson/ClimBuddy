@@ -24,20 +24,20 @@ b5_i = 25
 b6_i = 24
 
 # initializes green LED constant values
-green_led_1 = 6 # testing
-green_led_2 = 11
-green_led_3 = 12
-green_led_4 = 13
-green_led_5 = 16
-green_led_6 = 17
+green_led_1 = 0 
+green_led_2 = 0
+green_led_3 = 0
+green_led_4 = 0
+green_led_5 = 0
+green_led_6 = 0
 
 # initializes red LED constant values
-red_led_1 = 7 # testing
+red_led_1 = 13
 red_led_2 = 19
-red_led_3 = 20
-red_led_4 = 21
-red_led_5 = 22
-red_led_6 = 23
+red_led_3 = 26
+red_led_4 = 16
+red_led_5 = 20
+red_led_6 = 21
 
 # global variables for currently lit LEDS
 red_led_lit = red_led_1
@@ -56,6 +56,14 @@ def gpio_button_setup(gpio_input, gpio_output, button_callback):
     GPIO.setup(gpio_output, GPIO.OUT, initial=GPIO.LOW)
     GPIO.add_event_detect(gpio_input, GPIO.RISING, callback=button_callback, bouncetime=1000)
 
+def red_led_setup():
+    GPIO.setup(red_led_1, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(red_led_2, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(red_led_3, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(red_led_4, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(red_led_5, GPIO.OUT, initial=GPIO.LOW)
+    GPIO.setup(red_led_6, GPIO.OUT, initial=GPIO.LOW)
+    
 # changes output to HIGH on port_num
 def gpio_output_high(port_num):
     GPIO.output(port_num, GPIO.HIGH)
@@ -66,7 +74,7 @@ def gpio_output_low(port_num):
 
 # changes lit green LED to led_num 
 def green_led_change(led_num):
-    print("change green led")
+    time.sleep(0.001)
     #global green_led_lit
     #if green_led_lit == led_num:
     #    print 'led lit same\n'
@@ -74,87 +82,91 @@ def green_led_change(led_num):
     #    gpio_output_low(green_led_lit)
     #    gpio_output_high(led_num)
     #    green_led_lit = led_num
+
+def turn_on_red_led(red_led):
+    global red_led_lit
+    if red_led_lit == red_led:
+        time.sleep(0.4)
+        print('led lit same\n')
+    else:
+        gpio_output_low(red_led_lit)
+        gpio_output_high(red_led)
+        red_led_lit = red_led
+
+def pauseReceiveTransmitMessageAndContinueReceive(message):
+    global rx_pid
+    os.system("sudo kill -STOP %s" % (rx_pid))
+    runTransmitCode(message)
+    os.system("sudo kill -CONT %s" % (rx_pid))
         
 # button 1 pressed
 def b1_callback(self):
-    print("button 1")
+    print("Sent 1!")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
         green_led_change(green_led_1)
-        os.system("sudo kill -STOP %s" % (rx_pid))
-        runTransmitCode("1")
-        os.system("sudo kill -CONT %s" % (rx_pid))
+        pauseReceiveTransmitMessageAndContinueReceive("1")
         isRunningTransmit = False
     else:
         print("RUNNING CODE")
 
 # button 2 pressed
 def b2_callback(self):
-    print("button 2")
+    print("Sent 2!")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
         green_led_change(green_led_2)
-        os.system("sudo kill -STOP %s" % (rx_pid))
-        runTransmitCode("2")
-        os.system("sudo kill -CONT %s" % (rx_pid))
+        pauseReceiveTransmitMessageAndContinueReceive("2")
         isRunningTransmit = False
     else:
         print("RUNNING CODE")
 
 # button 3 pressed
 def b3_callback(self):
-    print("button 3")
+    print("Sent 3!")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
         green_led_change(green_led_3)
-        os.system("sudo kill -STOP %s" % (rx_pid))
-        runTransmitCode("3")
-        os.system("sudo kill -CONT %s" % (rx_pid))
+        pauseReceiveTransmitMessageAndContinueReceive("3")
         isRunningTransmit = False
     else:
         print("RUNNING CODE")
 
 # button 4 pressed
 def b4_callback(self):
-    print("button 4")
+    print("Sent 4!")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
         green_led_change(green_led_4)
-        os.system("sudo kill -STOP %s" % (rx_pid))
-        runTransmitCode("4")
-        os.system("sudo kill -CONT %s" % (rx_pid))
+        pauseReceiveTransmitMessageAndContinueReceive("4")
         isRunningTransmit = False
     else:
         print("RUNNING CODE")
 
 # button 5 pressed
 def b5_callback(self):
-    print("button 5")
+    print("Sent 5!")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
         green_led_change(green_led_5)
-        os.system("sudo kill -STOP %s" % (rx_pid))
-        runTransmitCode("5")
-        os.system("sudo kill -CONT %s" % (rx_pid))
+        pauseReceiveTransmitMessageAndContinueReceive("5")
         isRunningTransmit = False
     else:
         print("RUNNING CODE")
 
 # button 6 pressed
 def b6_callback(self):
-    print("button 6")
+    print("Sent 6!")
     global isRunningTransmit
     if isRunningTransmit == False:
         isRunningTransmit = True
         green_led_change(green_led_6)
-        os.system("sudo kill -STOP %s" % (rx_pid))
-        runTransmitCode("6")
-        os.system("sudo kill -CONT %s" % (rx_pid))
+        pauseReceiveTransmitMessageAndContinueReceive("6")
         isRunningTransmit = False
     else:
         print("RUNNING CODE")
@@ -162,41 +174,45 @@ def b6_callback(self):
 # runs receiver code in a subprocess
 def runReceiveCode():
     global rx_proc
-    rx_proc = Popen(["sudo", "/home/pi/ClimBuddy/cooking/examples/LoRa/receiveExample.cpp_exe"], stdout=PIPE)
+    rx_proc = Popen(["sudo", "/home/pi/ClimBuddy/cooking/examples/LoRa/receiveExample.cpp_exe"], stdin=PIPE, stdout=PIPE)
     global rx_pid
     rx_pid = rx_proc.pid
 
 # run transmit code in a subprocess
-def runTransmitCode(message):
-    global tx_proc
+def runTransmitCode(message): 
     try:
-        tx_proc = Popen(["sudo", "/home/pi/ClimBuddy/cooking/examples/LoRa/transmitMessage.cpp_exe", message], stdout=PIPE)
-        a, b = tx_proc.communicate(timeout=8)
+        global tx_proc
+        tx_proc = Popen(["sudo", "/home/pi/ClimBuddy/cooking/examples/LoRa/transmitMessage.cpp_exe", message], stdin=PIPE, stdout=PIPE)
+        out, err = tx_proc.communicate(timeout=8)
         global tx_pid
         tx_pid = tx_proc.pid
-        #Wait for execution of transmit to complete.
-        tx_proc.wait()
+        tx_proc.wait() #Wait for execution of transmit to complete.
     except TimeoutExpired:
         global isRunningCode
         isRunningCode = False
 
 # Light up LEDs depending on message received
 def handleMessage(outStr):
-    print("outStr: ", outStr)
     if "1" in outStr:
-        print ("1!")
+        print ("Received 1!")
+        turn_on_red_led(red_led_1)
     elif "2" in outStr:
-        print ("2!")
+        print ("Received 2!")
+        turn_on_red_led(red_led_2)
     elif "3" in outStr:
-        print ("3!")
+        print ("Received 3!")
+        turn_on_red_led(red_led_3)
     elif "4" in outStr:
-        print ("4!")
+        print ("Received 4!")
+        turn_on_red_led(red_led_4)
     elif "5" in outStr:
-        print ("5!")
+        print ("Received 5!")
+        turn_on_red_led(red_led_5)
     elif "6" in outStr:
-        print ("6!")
+        print ("Received 6!")
+        turn_on_red_led(red_led_6)
     else:
-        print("nah")
+        print("ErrorReceiving")
         
 # setup GPIO button type and warnings
 gpio_general_setup()
@@ -208,22 +224,21 @@ gpio_button_setup(b3_i, green_led_3, b3_callback)
 gpio_button_setup(b4_i, green_led_4, b4_callback)
 gpio_button_setup(b5_i, green_led_5, b5_callback)
 gpio_button_setup(b6_i, green_led_6, b6_callback)
+red_led_setup()
 
 runReceiveCode()
 
 while True:
+    global rx_proc
+    time.sleep(0.3)
     out, err = rx_proc.communicate()
-    print(type(out))
     try:
         outStr = out.decode("utf-8")
-        print(type(outStr))
         handleMessage(outStr)
-    except UnicodeDecodeError:    
-        print("whoops")
-    
+    except UnicodeDecodeError:
+        print("UnicodeDecodeError")
+
     runReceiveCode()
-
-
 
 
 

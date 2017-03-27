@@ -75,7 +75,7 @@ int main (){
 	setup();
 	while(1){
 		//loop();
-		e = sx1272.receivePacketTimeout(10000);
+		e = sx1272.receivePacketTimeoutACK(10000);
   		if ( e == 0 )
   		{
     			for (unsigned int i = 0; i < sx1272.packet_received.length; i++)
