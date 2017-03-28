@@ -19,7 +19,7 @@ def killTransceiverCode():
 while True:
     time.sleep(1)
     runTransceiverCode()
-    s.enter(30, 1, killTransceiverCode)
+    s.enter(45, 1, killTransceiverCode)
     s.run()
     
     
