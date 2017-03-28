@@ -9,7 +9,7 @@ s = sched.scheduler(time.time, time.sleep)
 
 def runTransceiverCode():
     global process, pid 
-    process = subprocess.Popen(["python3", "/home/pi/ClimBuddy/cooking/examples/LoRa/loraTransReceive.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    process = subprocess.Popen(["sudo", "python3", "/home/pi/ClimBuddy/cooking/examples/LoRa/loraTransReceive.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     pid = process.pid
 
 def killTransceiverCode():
